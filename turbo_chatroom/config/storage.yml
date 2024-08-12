@@ -4,7 +4,7 @@ test:
 
 local:
   service: Disk
-  root: <%= Rails.root.join("storage") %>
+  root: <%= File.expand_path('../storage') %>
 
 digitalocean:
   service: S3

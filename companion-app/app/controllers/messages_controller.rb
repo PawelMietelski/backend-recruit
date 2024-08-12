@@ -2,8 +2,9 @@ class MessagesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    MessagesCreator.call
+    MessagesCreator.new.call
     @messages = Message.visible
+    @hidden_messages = Message.hidden
   end
 
   def hide

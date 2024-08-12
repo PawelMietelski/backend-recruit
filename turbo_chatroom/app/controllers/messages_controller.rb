@@ -22,6 +22,7 @@ class MessagesController < ApplicationController
         message_id: @message.id,
         body: @message.body,
         user_id: current_user.id,
+        attachments_urls: @message.attachments.map { |a| ActiveStorage::Blob.service.path_for(a.key) }
       }
       $redis.xadd "messages", { request: params.to_json }
     else
