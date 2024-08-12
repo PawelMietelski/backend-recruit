@@ -7,4 +7,13 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  devise_for :users
+  root to: "messages#index"
+
+  resources :messages, only: [:index] do
+    member do
+      patch :hide
+    end
+  end
 end
