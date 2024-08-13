@@ -1,5 +1,6 @@
 .DS_Store
-/storage/*
+storage/*
+!storage/.gitkeep 
 /turbo_chatroom/tmp/cache
 /turbo_chatroom/storage
 /turbo_chatroom/log
