@@ -1,8 +1,17 @@
 class MessagesCreator
-  def call
-    stream = $redis.xread "messages", 0
+  def call(stream)
     return if stream_empty?(stream)
 
+    begin
+      parse_stream(stream)
+    rescue => e
+      Rails.logger.error("Error reading from Redis stream: #{e.message}")
+    end
+  end
+
+  private
+
+  def parse_stream(stream)
     stream["messages"].each do |mess|
       request = JSON.parse(mess[1]["request"])
       message_id = request["message_id"]
@@ -11,8 +20,6 @@ class MessagesCreator
       save_message(message_id, request)
     end
   end
-
-  private
 
   def save_message(message_id, request)
     message = Message.new(id: message_id)

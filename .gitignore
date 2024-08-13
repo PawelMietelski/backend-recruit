@@ -1,4 +1,5 @@
 .DS_Store
+/storage/*
 /turbo_chatroom/tmp/cache
 /turbo_chatroom/storage
 /turbo_chatroom/log
