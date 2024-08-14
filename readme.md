@@ -1,17 +1,10 @@
 # Ticket nr 5555
 
-AS IS:
-
-The turbo chatroom is a small application for users to talk to each other. You can sign up and send messages to other users, but if you send an unwanted message there is nothing nobody can do about it.
-
-TO BE:
-
-Write a companion app next to turbo chatroom that will help admins moderate the users activity. It needs following functionalites
-- login for admins
-- view of messages being sent
-- a button to hide given message. When it's pressed the message should be hidden in turbo chatroom
-
-
-Connect the two applications however you want, any modifications you need in turbo chatroom to solve the ticket are most welcome.
-
-Once done, pleace replace this readme with short documentation (bullet points) about what you did and why.
+- Add devise for simple auth of a users
+- Add Messages controller and view to display messages and hide messages 
+- Add TurboChatClient to handle API call to hide messages
+- Add  attachments_file_paths to xadd action in order to sent paths to attachments with message into redis
+- Make common storage folder in order to store attachments for both applications
+- Add MessagesCreator responsible for parsing stream and create messages with attachments in DB 
+- Add RedisMessagesListener responsible for running in a background and reading a stream and call MessagesCreator serivce
+- Add RedisMessagesListener to initializer in order to run it on a start of the rails server
