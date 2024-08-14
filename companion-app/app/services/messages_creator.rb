@@ -4,7 +4,7 @@ class MessagesCreator
 
     begin
       parse_stream(stream)
-    rescue => e
+    rescue JSON::ParserError, IOError => e
       Rails.logger.error("Error reading from Redis stream: #{e.message}")
     end
   end
@@ -24,7 +24,7 @@ class MessagesCreator
   def save_message(message_id, request)
     message = Message.new(id: message_id)
     message.body = request["body"]
-    create_attachments(request["attachments_urls"], message)
+    create_attachments(request["attachments_file_paths"], message)
     message.save
   end
 
@@ -36,11 +36,11 @@ class MessagesCreator
     Message.exists?(id: message_id)
   end
 
-  def create_attachments(attachments_urls, message)
-    return if attachments_urls.nil?
+  def create_attachments(attachments_file_paths, message)
+    return if attachments_file_paths.nil?
 
-    attachments_urls.each do |url|
-      message.attachments.attach(io: File.open(url), filename: "message_#{message.id}_file")
+    attachments_file_paths.each do |path|
+      message.attachments.attach(io: File.open(path), filename: "message_#{message.id}_file")
     end
   end
 end
