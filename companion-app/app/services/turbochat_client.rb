@@ -23,6 +23,6 @@ class TurbochatClient
   def handle_timeouts
     yield
   rescue Net::OpenTimeout, Net::ReadTimeout
-    raise GeneralApiExceptions::RequestTimeoutError
+    Rails.logger.error('Turbochat API Timeout error')
   end
 end
